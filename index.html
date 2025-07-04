@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CodeFusion 🔥</title>
+  <link rel="icon" href="icon-192.png" />
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      background: #0f172a;
+      color: #f8fafc;
+      height: 100vh;
+    }
+    header {
+      background: #1e293b;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .editors {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 1rem;
+      gap: 1rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .editor {
+      flex: 1;
+      min-width: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+    textarea {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      font-family: monospace;
+      resize: vertical;
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 2px solid #334155;
+    }
+    label {
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+    }
+    iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: white;
+    }
+    .preview {
+      height: 300px;
+      margin: 1rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      box-shadow: 0 0 10px #0003;
+    }
+    @media (min-height: 700px) {
+      .preview { height: 400px; }
+    }
+  </style>
+</head>
+<body>
+  <header>🔥 CodeFusion</header>
+  <div class="editors">
+    <div class="editor">
+      <label for="html">HTML</label>
+      <textarea id="html" oninput="updatePreview()"></textarea>
+    </div>
+    <div class="editor">
+      <label for="css">CSS</label>
+      <textarea id="css" oninput="updatePreview()"></textarea>
+    </div>
+    <div class="editor">
+      <label for="js">JavaScript</label>
+      <textarea id="js" oninput="updatePreview()"></textarea>
+    </div>
+  </div>
+  <div class="preview">
+    <iframe id="output"></iframe>
+  </div>
+
+  <script>
+    function updatePreview() {
+      const html = document.getElementById("html").value;
+      const css = `<style>${document.getElementById("css").value}</style>`;
+      const js = `<script>${document.getElementById("js").value}<\/script>`;
+      const output = document.getElementById("output");
+      output.srcdoc = html + css + js;
+    }
+
+    // Optional: preload sample code
+    document.getElementById("html").value = "<h1>Hello from CodeFusion!</h1>";
+    document.getElementById("css").value = "body { text-align: center; color: purple; }";
+    document.getElementById("js").value = "console.log('CodeFusion Ready!')";
+    updatePreview();
+
+    // PWA support
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+</body>
+</html>
